@@ -1,0 +1,156 @@
+{
+  "name": "sofas-extension",
+  "displayName": "SOFAS",
+  "description": "Plays a satisfying sound when your tests fail and succeed. Because silence is worse.",
+  "version": "1.0.0",
+  "publisher": "krypton",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krypton/sofas-extension"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Testing"
+  ],
+  "keywords": [
+    "test",
+    "fail",
+    "sound",
+    "notification",
+    "productivity",
+    "fun"
+  ],
+  "icon": "images/OFAAX40.jpg",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sofasOnFail.enable",
+        "title": "SOFAS: Enable Sound on Test Failure"
+      },
+      {
+        "command": "sofasOnFail.disable",
+        "title": "SOFAS: Disable Sound on Test Failure"
+      },
+      {
+        "command": "sofasOnFail.testSound",
+        "title": "SOFAS: Test the Sound"
+      },
+      {
+        "command": "sofasOnFail.testSuccessSound",
+        "title": "SOFAS: Test the Success Sound"
+      }
+    ],
+    "configuration": {
+      "title": "SOFAS on Fail",
+      "properties": {
+        "sofasOnFail.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable sound on test failure."
+        },
+        "sofasOnFail.failSound": {
+          "type": "string",
+          "default": "faah",
+          "enum": ["faah", "pleasespeed", "random"],
+          "enumDescriptions": [
+            "Classic faah sound",
+            "The iconic pleasespeed moment",
+            "Random"
+          ],
+          "description": "Which built-in sound to play on failure."
+        },
+        "sofasOnFail.successSound": {
+          "type": "string",
+          "default": "igotthis",
+          "enum": ["igotthis", "hihopbeat", "random"],
+          "enumDescriptions": [
+            "I got this",
+            "hip hop beat to get you moving",
+            "Random built-in success sound"
+          ],
+          "description": "Sound to play when all tests pass."
+        },
+        "sofasOnFail.volume": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0.1,
+          "maximum": 1.0,
+          "description": "Playback volume (0.1 = whisper, 1.0 = announce to the office)."
+        },
+        "sofasOnFail.customFailSoundPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom .wav or .mp3 to play on failure. Overrides the built-in sound."
+        },
+        "sofasOnFail.customSuccessSoundPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a custom .wav or .mp3 to play on success."
+        },
+        "sofasOnFail.showNotification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a notification message when tests fail."
+        },
+        "sofasOnFail.showSuccessNotification": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show a notification message when tests pass."
+        },
+        "sofasOnFail.failMessages": {
+          "type": "array",
+          "default": [
+            "Somewhere, a unit test just gave up.",
+            "The tests have spoken. They're not happy.",
+            "Your code has been found guilty.",
+            "Achievement unlocked: Breaking things.",
+            "Have you tried not breaking things?",
+            "Just check your code again."       
+          ],
+          "description": "Pool of messages randomly shown on test failure."
+        },
+        "sofasOnFail.extraTestCommands": {
+          "type": "array",
+          "default": [
+            "bash test.sh",
+            "./run_tests",
+            "git push",
+            "git commit",
+            "make check"
+          ],
+          "description": "Additional terminal commands to treat as test runs (e.g. [\"bash test.sh\", \"./run_tests\"])."
+        },
+        "sofasOnFail.cooldownSeconds": {
+          "type": "number",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 60,
+          "description": "Minimum seconds between sounds. Prevents spamming when re-running rapidly."
+        },
+        "sofasOnFail.onlyActiveEditor": {
+          "type": "boolean",
+          "default": false,
+          "description": "Only trigger sounds when VS Code is the active window."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint src",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "test:fail": "test-fail.bat",
+    "test:success": "test-success.bat"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^2.0.0",
+    "eslint": "^8.0.0"
+  }
+}
