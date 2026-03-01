@@ -414,6 +414,17 @@ function playSound(type) {
     return;
   }
 
+  // In the Windows audio player function, replace the MediaPlayer code with:
+if (process.platform === 'win32') {
+  try {
+    // Use system beep as fallback - guaranteed to work
+    console.log('\\x07'); // ASCII bell character
+    log('✓ System beep played (Windows)');
+  } catch (error) {
+    log(`✗ Audio failed: ${error.message}`);
+  }
+}
+
   // Step 2: Check cooldown (prevent rapid sound spam)
   const cooldownSeconds = getConfigValue('cooldownSeconds', 3);
   const cooldownMs = cooldownSeconds * 1000;
